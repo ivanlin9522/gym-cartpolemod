@@ -21,7 +21,6 @@ class CartPoleModEnv(gym.Env):
 			'render.modes': ['human', 'rgb_array'],
 			'video.frames_per_second' : 50
 	}
-
 	def __init__(self,case=1):
 		self.__version__ = "0.2.0"
 		self.gravity = 9.8
@@ -31,18 +30,18 @@ class CartPoleModEnv(gym.Env):
 		self.length = 0.5 # actually half the pole's length
 		self.polemass_length = (self.masspole * self.length)
 		self._seed()
-        if case == 2: # light 
-            self.masspole /= 2
-        elif case == 3: # heavy
-            self.masspole *= 2
-        elif case == 4: # long
-            self.length *= 2
-        elif case == 5: # short
-            self.length /= 2
-        elif case == 6: # soft
-            self.gravity /= 5
-        elif case == 7: # strong
-            self.gravity *= 5
+		if case == 2: # light 
+		    self.masspole /= 2
+		elif case == 3: # heavy
+		    self.masspole *= 2
+		elif case == 4: # long
+		    self.length *= 2
+		elif case == 5: # short
+		    self.length /= 2
+		elif case == 6: # soft
+		    self.gravity /= 5
+		elif case == 7: # strong
+		    self.gravity *= 5
           
 		self.force_mag = 10.0
 		self.tau = 0.02  # seconds between state updates
