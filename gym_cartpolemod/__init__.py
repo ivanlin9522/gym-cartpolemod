@@ -4,37 +4,37 @@ from gym.envs.registration import register
 logger = logging.getLogger(__name__)
 
 register(
-    id='CartPoleMod-v0',
+    id='CartPoleMod-original',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':1},
 )
 register(
-    id='CartPoleMod-v1',
+    id='CartPoleMod-light',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':2},
 )
 register(
-    id='CartPoleMod-v2',
+    id='CartPoleMod-heavt',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':3},
 )
 register(
-    id='CartPoleMod-v3',
+    id='CartPoleMod-long',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':4},
 )
 register(
-    id='CartPoleMod-v4',
+    id='CartPoleMod-short',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':5},
 )
 register(
-    id='CartPoleMod-v5',
+    id='CartPoleMod-soft',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':6},
 )
 register(
-    id='CartPoleMod-v6',
+    id='CartPoleMod-strong',
     entry_point='gym_cartpolemod.envs:CartPoleModEnv',
     kwargs={'case':7},
 )
