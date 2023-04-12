@@ -4,12 +4,12 @@ CartPole-v0 OpenAI environment which includes cart & pole friction and random se
 
 ## Installation
 
-Install [OpenAI gym](https://gym.openai.com/docs/).
+Install [OpenAI gym](https://gym.openai.com/docs/). # pip install gym 0.8.0
 
 Then install this package via
 
 ```
-git clone http://github.com/AadityaPatanjali/gym-cartpolemod.git
+git clone http://github.com/ivanlin9522/gym-cartpolemod.git
 cd gym-cartpolemod
 sudo pip install -e .
 ```
@@ -23,7 +23,14 @@ import gym_cartpolemod
 env = gym.make('CartPoleMod-v0')
 ```
 Examples:
-Versions go from v0 through v6 for different noise scenarios
+Versions go from v0 through v6 for different parameters
+v0: original
+v1: light masspole
+v2: heavy masspole
+v3: long pole
+v4: short pole
+v5: soft gravity
+v6: strong gravity
 ```
 cd example_files
 python deepQNetwork.py v1
@@ -36,19 +43,6 @@ Some parameters for the cart-pole system:
 - mass of the pole = 0.1
 - length of the pole = 0.5 
 - magnitude of the force = 10.0
-- friction at the cart = 5e-4
-- friction at the pole = 2e-6
-
-Noise cases(v0 to v6):
-- v0: Noise free
-- v1: 5%  Uniform Actuator noise
-- v2: 10% Uniform Actuator noise
-- v3: 5%  Uniform Sensor noise
-- v4: 10% Uniform Sensor noise
-- v5: 0.1 var Gaussian Sensor noise
-- v6: 0.2 var Gaussian Sensor noise
-
-Note: The sensor noise is added to the angle, theta alone, and the actuator noise is added to the force.
 
 Some Neural network parameters:
 - Discount rate     : gamma = 0.95
@@ -73,16 +67,6 @@ Notations:
 - Average trials  : Mean trials to successful trial over 100 runs
 - Execution time  : Approximate average time of execution for 100 runs
 
-## Results
-|CartpoleMod Version|Noise type|Success rate|Average trials|Execution time|
-|:---:|:---:|:---:|:---:|:---:|
-|v0|Noise free|100%|119.68|~ 4.5 hours|
-|v1|5% Uniform Actuator Noise|100%|118.88|~ 4.5 hours|
-|v2|10% Uniform Actuator Noise|100%|130.47|~ 4.5 hours|
-|v3|5% Uniform Sensor Noise|100%|123.93|~ 5.5 hours|
-|v4|10% Uniform Sensor Noise|100%|133.67|~ 5.5 hours|
-|v5|σ^2 = 0.1 Gaussian Sensor Noise|100%|179.36|~ 6.5 hours|
-|v6|σ^2 = 0.2 Gaussian Sensor Noise|98%|209.59|~ 8 hours|
 
 ## The team
 - Aaditya Ravindran
