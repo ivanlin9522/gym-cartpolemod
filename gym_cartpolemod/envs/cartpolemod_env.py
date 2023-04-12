@@ -44,7 +44,7 @@ class CartPoleModEnv(gym.Env):
           
 		self.force_mag = 10.0
 		self.tau = 0.02  # seconds between state updates
-        	self.kinematics_integrator = "euler"
+        self.kinematics_integrator = "euler"
 
 		# Angle at which to fail the episode
 		self.theta_threshold_radians = 12 * 2 * math.pi / 360
@@ -90,14 +90,14 @@ class CartPoleModEnv(gym.Env):
 
 		if self.kinematics_integrator == "euler":
 			x = x + self.tau * x_dot
-		    	x_dot = x_dot + self.tau * xacc
-		    	theta = theta + self.tau * theta_dot
-		    	theta_dot = theta_dot + self.tau * thetaacc
+		    x_dot = x_dot + self.tau * xacc
+		    theta = theta + self.tau * theta_dot
+		    theta_dot = theta_dot + self.tau * thetaacc
 		else:  # semi-implicit euler
-		    	x_dot = x_dot + self.tau * xacc
-		    	x = x + self.tau * x_dot
-		    	theta_dot = theta_dot + self.tau * thetaacc
-		    	theta = theta + self.tau * theta_dot
+            x_dot = x_dot + self.tau * xacc
+            x = x + self.tau * x_dot
+            theta_dot = theta_dot + self.tau * thetaacc
+            theta = theta + self.tau * theta_dot
 
 		self.state = (x, x_dot, theta, theta_dot)
 
@@ -111,71 +111,69 @@ class CartPoleModEnv(gym.Env):
 		if not terminated:
 			reward = 1.0
 		elif self.steps_beyond_terminated is None:
-		    	# Pole just fell!
-		    	self.steps_beyond_terminated = 0
-		    	reward = 1.0
+            # Pole just fell!
+            self.steps_beyond_terminated = 0
+            reward = 1.0
 		else:
-		    	if self.steps_beyond_terminated == 0:
-				logger.warn(
-			    	"You are calling 'step()' even though this "
-			    	"environment has already returned terminated = True. You "
-			    	"should always call 'reset()' once you receive 'terminated = "
-			    	"True' -- any further steps are undefined behavior."
-				)
-		    	self.steps_beyond_terminated += 1
-		    	reward = 0.0
+            if self.steps_beyond_terminated == 0:
+            logger.warn(
+                "You are calling 'step()' even though this "
+                "environment has already returned terminated = True. You "
+                "should always call 'reset()' once you receive 'terminated = "
+                "True' -- any further steps are undefined behavior."
+            )
+            self.steps_beyond_terminated += 1
+            reward = 0.0
 
 		if self.render_mode == "human":
-		    	self.render()
+            self.render()
 		return np.array(self.state, dtype=np.float32), reward, terminated, False, {}
 
 	def _reset(
-        	self,
-       		*,
-        	seed: Optional[int] = None,
-        	options: Optional[dict] = None,
+        self,
+        *,
+        seed: Optional[int] = None,
+        options: Optional[dict] = None,
     	):
-        	super().reset(seed=seed)
-        	# Note that if you use custom reset bounds, it may lead to out-of-bound
-        	# state/observations.
-        	low, high = utils.maybe_parse_reset_bounds(
-            		options, -0.05, 0.05  # default low
-        	)  # default high
-        	self.state = self.np_random.uniform(low=low, high=high, size=(4,))
-        	self.steps_beyond_terminated = None
+        super().reset(seed=seed)
+        # Note that if you use custom reset bounds, it may lead to out-of-bound
+        # state/observations.
+        low, high = utils.maybe_parse_reset_bounds(
+                options, -0.05, 0.05  # default low
+        )  # default high
+        self.state = self.np_random.uniform(low=low, high=high, size=(4,))
+        self.steps_beyond_terminated = None
 
-        	if self.render_mode == "human":
-            		self.render()
-        	return np.array(self.state, dtype=np.float32), {}
+        if self.render_mode == "human":
+            self.render()
+        return np.array(self.state, dtype=np.float32), {}
 
 	def _render(self):
 		if self.render_mode is None:
-            		gym.logger.warn(
-                		"You are calling render method without specifying any render mode. "
-                		"You can specify the render_mode at initialization, "
-                		f'e.g. gym("{self.spec.id}", render_mode="rgb_array")'
-            		)
-        		return
+            gym.logger.warn(
+                "You are calling render method without specifying any render mode. "
+                "You can specify the render_mode at initialization, "
+                f'e.g. gym("{self.spec.id}", render_mode="rgb_array")'
+            )
+            return
 
-        	try:
+        try:
 			import pygame
 			from pygame import gfxdraw
-        	except ImportError:
-            		raise DependencyNotInstalled(
-                		"pygame is not installed, run `pip install gym[classic_control]`"
-            		)
+        except ImportError:
+            raise DependencyNotInstalled(
+                "pygame is not installed, run `pip install gym[classic_control]`"
+            )
 
 		if self.screen is None:
-		    	pygame.init()
-		    	if self.render_mode == "human":
-				pygame.display.init()
-				self.screen = pygame.display.set_mode(
-				    (self.screen_width, self.screen_height)
-				)
+            pygame.init()
+            if self.render_mode == "human":
+                pygame.display.init()
+                self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 			else:  # mode == "rgb_array"
 				self.screen = pygame.Surface((self.screen_width, self.screen_height))
 		if self.clock is None:
-		    	self.clock = pygame.time.Clock()
+		    self.clock = pygame.time.Clock()
 
 		world_width = self.x_threshold * 2
 		scale = self.screen_width / world_width
@@ -210,9 +208,9 @@ class CartPoleModEnv(gym.Env):
 
 		pole_coords = []
 		for coord in [(l, b), (l, t), (r, t), (r, b)]:
-			    coord = pygame.math.Vector2(coord).rotate_rad(-x[2])
-			    coord = (coord[0] + cartx, coord[1] + carty + axleoffset)
-			    pole_coords.append(coord)
+            coord = pygame.math.Vector2(coord).rotate_rad(-x[2])
+            coord = (coord[0] + cartx, coord[1] + carty + axleoffset)
+            pole_coords.append(coord)
 		gfxdraw.aapolygon(self.surf, pole_coords, (202, 152, 101))
 		gfxdraw.filled_polygon(self.surf, pole_coords, (202, 152, 101))
 
@@ -223,30 +221,30 @@ class CartPoleModEnv(gym.Env):
 			    int(polewidth / 2),
 			    (129, 132, 203),
 		)
-        	gfxdraw.filled_circle(
-            		self.surf,
+        gfxdraw.filled_circle(
+            self.surf,
 			int(cartx),
 			int(carty + axleoffset),
 			int(polewidth / 2),
 			(129, 132, 203),
 		)
 
-        	gfxdraw.hline(self.surf, 0, self.screen_width, carty, (0, 0, 0))
+        gfxdraw.hline(self.surf, 0, self.screen_width, carty, (0, 0, 0))
 
-        	self.surf = pygame.transform.flip(self.surf, False, True)
-        	self.screen.blit(self.surf, (0, 0))
-        	if self.render_mode == "human":
-            		pygame.event.pump()
-            	self.clock.tick(self.metadata["render_fps"])
-            	pygame.display.flip()
+        self.surf = pygame.transform.flip(self.surf, False, True)
+        self.screen.blit(self.surf, (0, 0))
+        if self.render_mode == "human":
+            pygame.event.pump()
+            self.clock.tick(self.metadata["render_fps"])
+            pygame.display.flip()
 
-        	elif self.render_mode == "rgb_array":
-            		return np.transpose(np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2))
+        elif self.render_mode == "rgb_array":
+            return np.transpose(np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2))
 
-    	def _close(self):
-        	if self.screen is not None:
-            		import pygame
+    def _close(self):
+        if self.screen is not None:
+            import pygame
 
-            	pygame.display.quit()
-            	pygame.quit()
-            	self.isopen = False
+            pygame.display.quit()
+            pygame.quit()
+            self.isopen = False
