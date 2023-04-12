@@ -1,1 +1,1 @@
-from gym_cartpolemod.envs.cartpolemod_env import CartPoleModEnv
+from gym_cartpolemod.envs.cartpolemod_env import CartPoleLightEnv
